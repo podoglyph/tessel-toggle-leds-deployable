@@ -21,7 +21,7 @@ class Switch extends Component {
     let stateSelector = button.getAttribute('data-color');
     let key = `is${stateSelector}On`;
 
-    axios.get(`https://65.128.75.135:42222/leds/${ledIndex}`)
+    axios.get(`http://192.168.0.42:8888/leds/${ledIndex}`)
       .then(({ data })=> {
       	console.log(data.on);
         this.setState({
@@ -35,7 +35,7 @@ class Switch extends Component {
     let button = event.target;
     let ledIndex = button.getAttribute('data-led');
 
-    axios.get(`https://65.128.75.135:42222/leds/${ledIndex}`)
+    axios.get(`http://192.168.0.42:8888/leds/${ledIndex}`)
       .then(({ data }) => {
         console.log(data);
         this.setState({
@@ -52,7 +52,7 @@ class Switch extends Component {
     let button = event.target;
     let ledIndex = button.getAttribute('data-led');
 
-    axios.get(`https://65.128.75.135:42222/leds/${ledIndex}`)
+    axios.get(`http://192.168.0.42:8888/leds/${ledIndex}`)
       .then(({ data }) => {
         console.log(data);
         this.setState({

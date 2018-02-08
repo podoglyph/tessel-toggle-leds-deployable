@@ -6,7 +6,7 @@ function Video() {
     <div className="container camera-feed">
       <div className="row">
         <div className="col-sm-6 col-sm-offset-3">
-          <img alt="camera feed" src='https://65.128.75.135:42222/camera' />
+          <img alt="Camera feed" src='http://192.168.0.42:8888/camera' />
         </div>
       </div>
     </div>
