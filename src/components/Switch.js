@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ledIndicators from './include/ledIndicators.js';
+import ledToggleAll from './include/ledToggleAll.js';
+const API = 'http://192.168.0.42:8888/leds/';
 
 class Switch extends Component {
   constructor(props) {
@@ -11,8 +14,7 @@ class Switch extends Component {
       isBlueOn: false
     };
     this.handleClick = this.handleClick.bind(this);
-    this.downLeds = this.downLeds.bind(this);
-    this.upLeds = this.upLeds.bind(this);
+    this.allLeds = this.allLeds.bind(this);
   }
 
   handleClick(event) {
@@ -21,7 +23,7 @@ class Switch extends Component {
     let stateSelector = button.getAttribute('data-color');
     let key = `is${stateSelector}On`;
 
-    axios.get(`http://192.168.0.42:8888/leds/${ledIndex}`)
+    axios.get(API + ledIndex)
       .then(({ data })=> {
       	console.log(data.on);
         this.setState({
@@ -31,35 +33,30 @@ class Switch extends Component {
       .catch((err)=> {})
   }
 
-  downLeds(event) {
+  allLeds(event) {
     let button = event.target;
-    let ledIndex = button.getAttribute('data-led');
+    let newStatus = button.getAttribute('data-led');
+    let updateStatus = null;
+    let ledIndex = null;
 
-    axios.get(`http://192.168.0.42:8888/leds/${ledIndex}`)
+    if (newStatus === 'All On') {
+      ledIndex = 6;
+      updateStatus = true;
+    } else if (newStatus === 'Reset') {
+      ledIndex = 5;
+      updateStatus = false;
+    } else {
+      console.log("Something went wrong.");
+    }
+
+    axios.get(API + ledIndex)
       .then(({ data }) => {
         console.log(data);
         this.setState({
-          isRedOn: false,
-          isAmberOn: false,
-          isGreenOn: false,
-          isBlueOn: false
-        });
-      })
-      .catch((err)=> {})
-  }
-
-  upLeds(event) {
-    let button = event.target;
-    let ledIndex = button.getAttribute('data-led');
-
-    axios.get(`http://192.168.0.42:8888/leds/${ledIndex}`)
-      .then(({ data }) => {
-        console.log(data);
-        this.setState({
-          isRedOn: true,
-          isAmberOn: true,
-          isGreenOn: true,
-          isBlueOn: true
+          isRedOn: updateStatus,
+          isAmberOn: updateStatus,
+          isGreenOn: updateStatus,
+          isBlueOn: updateStatus
         });
       })
       .catch((err)=> {})
@@ -70,46 +67,13 @@ class Switch extends Component {
       <div className="container">
         <div className="row row-toggle">
           <div className="col-lg-6 col-lg-offset-3">
-            <div className="led-indicator col-md-3">
-              <button onClick={this.handleClick} className="led-button" id="red" data-led="0" data-color="Red">
-                {this.state.isRedOn ? 'ON' : 'OFF'}
-              </button>
-            </div>
-
-            <div className="led-indicator col-md-3">
-              <button onClick={this.handleClick} className="led-button" id="amber" data-led="1" data-color="Amber">
-                {this.state.isAmberOn ? 'ON' : 'OFF'}
-              </button>
-            </div>
-
-            <div className="led-indicator col-md-3">
-              <button onClick={this.handleClick} className="led-button" id="green" data-led="2" data-color="Green">
-                {this.state.isGreenOn ? 'ON' : 'OFF'}
-              </button>
-            </div>
-
-            <div className="led-indicator col-md-3">
-              <button onClick={this.handleClick} className="led-button" id="blue" data-led="3" data-color="Blue">
-                {this.state.isBlueOn ? 'ON' : 'OFF'}
-              </button>
-            </div>
+            { ledIndicators }
           </div>
         </div>
-
         <div className="row row-onoff">
           <div className="col-md-12">
-            <div className="led-indicator col-md-6">
-              <button onClick={this.downLeds} className="led-button led-reset" data-led="6">
-                Reset
-              </button>
-            </div>
-            <div className="led-indicator col-md-6">
-              <button onClick={this.upLeds} className="led-button led-allon" data-led="5">
-                All On
-              </button>
-            </div>
+            { ledToggleAll }
           </div>
-
         </div>
       </div>
     )

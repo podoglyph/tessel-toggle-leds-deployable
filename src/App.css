@@ -28,19 +28,19 @@ body {
   transition: all .3s ease-in-out;
 }
 
-.led-button#red{
+.led-button#Red{
   border-color: #FF0000;
 }
 
-.led-button#amber{
+.led-button#Amber{
   border-color: #FFC200;
 }
 
-.led-button#green{
+.led-button#Green{
   border-color: #00cd00;
 }
 
-.led-button#blue{
+.led-button#Blue{
   border-color: #0000ff;
 }
 
