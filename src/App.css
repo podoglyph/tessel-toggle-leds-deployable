@@ -55,3 +55,28 @@ body {
 .camera-feed img {
   max-width: 100%;
 }
+
+.image-overlay {
+  position: relative;
+}
+
+.image-overlay-data {
+  color: #fff;
+}
+
+.image-overlay-data .overlay-date {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.image-overlay-data .overlay-temp {
+  position: absolute;
+  top: 20px;
+  right: 0px;
+}
+
+.image-overlay-data img {
+  position: relative;
+  z-index: -5;
+}
